@@ -117,3 +117,15 @@ resource "okta_user" "Audrey_Pops" {
   user_type          = "Employee"
   zip_code           = "90814"
 }
+resource "okta_group" "okta-pops-admins" {
+  name        = "okta-pops-admins"
+  description = "This is the group of the Pops Admins."
+}
+
+resource "okta_group_memberships" "okta_pops_admins_members" {
+  group_id = okta_group.okta-pops-admins.id
+  users = [
+    okta_user.Stella_Pops.id,
+    okta_user.Bernie_Pops.id,
+  ]
+}
