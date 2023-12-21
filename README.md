@@ -15,23 +15,27 @@ Once you have that set up, you will then need to set up an API integration so th
 - [Information on the scoped OAuth 2.0 token for machine to machine workflows](https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/main/)
 
 
-Then, using terraform, you will set up a structure of the org below
-Long Beach Custom Popsicles
+At this point, finally, you can now start using terraform to set up a structure of the org below.
+The fictitious company that I have come up with is Long Beach Popsicles
 
 lbpopsco.com
 
-Group Name: okta-admins
+Group Name: okta-pops-admins
 Stella Pops
 Bernie Pops
 
-Group Name: okta-developers
+Group Name: okta-pops-developers
 Lily Pops
 Audrey Pops
 Stella Pops
 
-Group Name: okta-qas
+Group Name: okta-pops-qas
 Bernie Pops
 
+Here's where the TF stuff is:
+- Declared all the okta related variables in okta_variables.tf
+- Locally, I'm using a tfvars file, on Terraform Cloud, I'm loading up variables
+- okta.tf has all the People & Groups
 
 
 Will need HCP Vault
