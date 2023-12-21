@@ -135,25 +135,25 @@ resource "okta_user" "Audrey_Pops" {
 */
 
 
-resource "okta_group" "okta-pops-admins" {
-  name        = "okta-pops-admins"
+resource "okta_group" "okta-pops-admins_vault" {
+  name        = "okta-pops-admins_vault"
   description = "This is the group of the Pops Admins."
 }
 
 resource "okta_group_memberships" "okta_pops_admins_members" {
-  group_id = okta_group.okta-pops-admins.id
+  group_id = okta_group.okta-pops-admins_vault.id
   users = [
     okta_user.Stella_Pops.id,
     okta_user.Bernie_Pops.id,
   ]
 }
 
-resource "okta_group" "okta-pops-developers" {
-  name        = "okta-pops-developers"
+resource "okta_group" "okta-pops-developers_vault" {
+  name        = "okta-pops-developers_vault"
   description = "This is the group of the Pops Developers."
 }
 resource "okta_group_memberships" "okta_pops_developers_members" {
-  group_id = okta_group.okta-pops-developers.id
+  group_id = okta_group.okta-pops-developers_vault.id
   users = [
     okta_user.Stella_Pops.id,
     okta_user.Lily_Pops.id,
@@ -161,13 +161,80 @@ resource "okta_group_memberships" "okta_pops_developers_members" {
   ]
 }
 
-resource "okta_group" "okta-pops-qas" {
-  name        = "okta-pops-qas"
+resource "okta_group" "okta-pops-qas_vault" {
+  name        = "okta-pops-qas_vault"
   description = "This is the group of the Pops QA Engineers."
 }
 resource "okta_group_memberships" "okta_pops_qas_members" {
-  group_id = okta_group.okta-pops-qas.id
+  group_id = okta_group.okta-pops-qas_vault.id
   users = [
     okta_user.Bernie_Pops.id
   ]
+}
+
+/**
+ * Need to create an authorization server for this exercise
+ * Once that's done, need to create a claim
+ */
+
+resource "okta_auth_server" "okta_vault_auth_server" {
+  audiences   = ["api://okta_vault_auth"]
+  description = "Auth server for this OIDC Vault test"
+  name        = "okta_vault_auth_server"
+  status      = "ACTIVE"
+  issuer_mode = "ORG_URL"
+}
+
+resource "okta_auth_server_claim" "okta_vault_auth_server_claim" {
+  auth_server_id = okta_auth_server.okta_vault_auth_server.id
+  name           = "groups"
+  value          = "_vault"
+  scopes         = ["profile"]
+  claim_type = "IDENTITY"
+  value_type = "GROUPS"
+  group_filter_type = "CONTAINS"
+}
+
+/**
+ * Need to create the App inside of Okta now
+ * This is the Okta side that connects Vault to Okta to authenticate the user
+ */
+
+locals {
+  full_vault_callback_uri_ui = format("%s%s", var.vault_addr, var.vault_callback_uri_ui) 
+}
+
+resource "okta_app_oauth" "okta_vault_app" {
+  label                      = var.vault_okta_app_name
+  type                       = "web"
+  grant_types                = ["authorization_code", "implicit"]
+  redirect_uris              = [local.full_vault_callback_uri_ui,var.vault_callback_uri_cli]
+  response_types             = ["code", "token", "id_token"]
+  consent_method = "REQUIRED"
+  groups_claim {
+    type = "FILTER"
+    filter_type = "CONTAINS"
+    name = "groups"
+    value = "_vault"
+  }
+}
+
+resource "okta_app_group_assignments" "okta_vault_app_group_assignments" {
+  app_id   = okta_app_oauth.okta_vault_app.id
+  group {
+    id = okta_group.okta-pops-admins_vault.id
+  }
+  group {
+    id = okta_group.okta-pops-developers_vault.id
+  }
+  group {
+    id = okta_group.okta-pops-qas_vault.id
+  }
+}
+
+
+resource "okta_app_oauth_api_scope" "okta_vault_app_oauth_api_scope" {
+  app_id = okta_app_oauth.okta_vault_app.id
+  issuer = var.okta_org_name
+  scopes = ["okta.groups.read", "okta.users.read.self"]
 }
