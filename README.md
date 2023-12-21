@@ -11,10 +11,9 @@ developer.okta.com
 
 Once you have that set up, you will then need to set up an API integration so that you can manage Okta from Terraform. Okta recommends that you use OAuth 2.0 for this machine-to-machine workflow. They describe the process of set up for this.
 
-- [Okta] [1]
-- [OAuth] [2]
-[1]: https://developer.okta.com/docs/guides/terraform-enable-org-access/main/   "Setting up access inside of Okta so that Terraform can access your Okta org" 
-[2]: https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/main/   "Scoped OAuth 2.0 tokens"
+- [Setting up access inside of Okta so that Terraform can access your Okta org](https://developer.okta.com/docs/guides/terraform-enable-org-access/main/)
+- [Information on the scoped OAuth 2.0 token for machine to machine workflows](https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/main/)
+
 
 Then, using terraform, you will set up a structure of the org below
 Long Beach Custom Popsicles
