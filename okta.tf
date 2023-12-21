@@ -7,9 +7,13 @@ terraform {
   }
 }
 
-# Configure the Okta Provider
+/** Configure the Okta Provider
 # see okta_variables.tf for the variable declarations
 # locally using the okta_variables.tfvars
+# Note that the private key cannot be presented as a file in tfvars
+# so at the CLI, you will need to do something like:
+# terraform plan[apply,destroy] -var"okta_private_key=yourfilepath.key"
+*/
 
 provider "okta" {
   org_name       = var.okta_org_name
@@ -19,6 +23,12 @@ provider "okta" {
   private_key    = var.okta_private_key
   scopes         = var.okta_scopes
 }
+
+/** Add the Users
+# Recall that there are 4 users for testing purposes here:
+# Stella, Lily, Bernie, Audrey
+*/
+
 
 resource "okta_user" "Stella_Pops" {
   first_name         = "Stella"
@@ -117,6 +127,14 @@ resource "okta_user" "Audrey_Pops" {
   user_type          = "Employee"
   zip_code           = "90814"
 }
+
+
+/** Add the Groups & also configure Group Members
+# Recall that there are 3 groups for testing purposes here:
+# Admins, Developers, QA
+*/
+
+
 resource "okta_group" "okta-pops-admins" {
   name        = "okta-pops-admins"
   description = "This is the group of the Pops Admins."
@@ -127,5 +145,29 @@ resource "okta_group_memberships" "okta_pops_admins_members" {
   users = [
     okta_user.Stella_Pops.id,
     okta_user.Bernie_Pops.id,
+  ]
+}
+
+resource "okta_group" "okta-pops-developers" {
+  name        = "okta-pops-developers"
+  description = "This is the group of the Pops Developers."
+}
+resource "okta_group_memberships" "okta_pops_developers_members" {
+  group_id = okta_group.okta-pops-developers.id
+  users = [
+    okta_user.Stella_Pops.id,
+    okta_user.Lily_Pops.id,
+    okta_user.Audrey_Pops.id
+  ]
+}
+
+resource "okta_group" "okta-pops-qas" {
+  name        = "okta-pops-qas"
+  description = "This is the group of the Pops QA Engineers."
+}
+resource "okta_group_memberships" "okta_pops_qas_members" {
+  group_id = okta_group.okta-pops-qas.id
+  users = [
+    okta_user.Bernie_Pops.id
   ]
 }
