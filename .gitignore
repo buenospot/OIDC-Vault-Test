@@ -10,3 +10,6 @@ okta_private_key.*
 
 # workspace
 *.code-workspace
+
+# lock
+.terraform.lock.hcl
