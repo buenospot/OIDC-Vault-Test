@@ -15,7 +15,8 @@ Once you have that set up, you will then need to set up an API integration so th
 - [Information on the scoped OAuth 2.0 token for machine to machine workflows](https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/main/)
 
 Here are the okta_scopes that I believe you will need:
-`okta_scopes = [ "okta.appGrants.manage","okta.apps.manage","okta.groups.manage","okta.policies.manage","okta.users.manage","okta.userTypes.manage","okta.userTypes.read","okta.users.read","okta.authorizationServers.manage","okta.authorizationServers.read" ]``
+`okta_scopes = 
+    [ "okta.appGrants.manage","okta.apps.manage","okta.groups.manage","okta.policies.manage","okta.users.manage","okta.userTypes.manage","okta.userTypes.read","okta.users.read","okta.authorizationServers.manage","okta.authorizationServers.read" ]`
 
 At this point, finally, you can now start using terraform to set up a structure of the org below.
 The fictitious company that I have come up with is Long Beach Popsicles
