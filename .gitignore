@@ -1,0 +1,12 @@
+*.tfvars
+okta_private_key.*
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# workspace
+*.code-workspace
