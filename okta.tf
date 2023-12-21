@@ -18,7 +18,7 @@ terraform {
 provider "okta" {
   org_name       = var.okta_org_name
   base_url       = var.okta_base_url
-  client_id      = var.okta_app_client_id
+  client_id      = var.okta_terraform_client_id
   private_key_id = var.okta_private_key_id
   private_key    = var.okta_private_key
   scopes         = var.okta_scopes
@@ -202,6 +202,7 @@ resource "okta_auth_server_claim" "okta_vault_auth_server_claim" {
 
 locals {
   full_vault_callback_uri_ui = format("%s%s", var.vault_addr, var.vault_callback_uri_ui) 
+  full_org_name = format("https://%s.%s", var.okta_org_name, var.okta_base_url)
 }
 
 resource "okta_app_oauth" "okta_vault_app" {
@@ -209,7 +210,7 @@ resource "okta_app_oauth" "okta_vault_app" {
   type                       = "web"
   grant_types                = ["authorization_code", "implicit"]
   redirect_uris              = [local.full_vault_callback_uri_ui,var.vault_callback_uri_cli]
-  response_types             = ["code", "token", "id_token"]
+  response_types             = ["code", "token","id_token"]
   consent_method = "REQUIRED"
   groups_claim {
     type = "FILTER"
@@ -235,6 +236,16 @@ resource "okta_app_group_assignments" "okta_vault_app_group_assignments" {
 
 resource "okta_app_oauth_api_scope" "okta_vault_app_oauth_api_scope" {
   app_id = okta_app_oauth.okta_vault_app.id
-  issuer = var.okta_org_name
+  issuer = local.full_org_name
   scopes = ["okta.groups.read", "okta.users.read.self"]
+}
+output "my_full_org_name" {
+  value = local.full_org_name
+}
+output "my_okta_app_client_id" {
+  value = okta_app_oauth.okta_vault_app.client_id
+}
+output "my_okta_app_client_secret" {
+  value = okta_app_oauth.okta_vault_app.client_secret
+  sensitive = true
 }

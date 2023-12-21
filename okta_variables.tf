@@ -10,7 +10,7 @@ variable "okta_base_url" {
   sensitive = false
 }
 
-variable "okta_app_client_id" {
+variable "okta_terraform_client_id" {
   description = "App client ID"
   type = string
   sensitive = true
