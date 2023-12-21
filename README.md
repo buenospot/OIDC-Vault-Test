@@ -14,28 +14,31 @@ Once you have that set up, you will then need to set up an API integration so th
 - [Setting up access inside of Okta so that Terraform can access your Okta org](https://developer.okta.com/docs/guides/terraform-enable-org-access/main/)
 - [Information on the scoped OAuth 2.0 token for machine to machine workflows](https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/main/)
 
+Here are the okta_scopes that I believe you will need:
+`okta_scopes = [ "okta.appGrants.manage","okta.apps.manage","okta.groups.manage","okta.policies.manage","okta.users.manage","okta.userTypes.manage","okta.userTypes.read","okta.users.read","okta.authorizationServers.manage","okta.authorizationServers.read" ]``
 
 At this point, finally, you can now start using terraform to set up a structure of the org below.
 The fictitious company that I have come up with is Long Beach Popsicles
 
 lbpopsco.com
 
-Group Name: okta-pops-admins
-Stella Pops
-Bernie Pops
+Group Name: okta-pops-admins_vault
+- Stella Pops
+- Bernie Pops
 
-Group Name: okta-pops-developers
-Lily Pops
-Audrey Pops
-Stella Pops
+Group Name: okta-pops-developers_vault
+- Lily Pops
+- Audrey Pops
+- Stella Pops
 
-Group Name: okta-pops-qas
-Bernie Pops
+Group Name: okta-pops-qas_vault
+- Bernie Pops
 
-Here's where the TF stuff is:
+Here's how the TF is structured:
 - Declared all the okta related variables in okta_variables.tf
 - Locally, I'm using a tfvars file, on Terraform Cloud, I'm loading up variables
 - okta.tf has all the People & Groups
+- okta.tf will also have the OIDC configuration for Vault to use
 
 
 Will need HCP Vault
