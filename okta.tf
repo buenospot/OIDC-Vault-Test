@@ -35,7 +35,7 @@ resource "okta_user" "Stella_Pops" {
   last_name          = "Pops"
   login              = "stellapops@lbpopsco.com"
   password           = "stella1s7he8est"
-  email              = "buenospot+stella@berkeley.edu"
+  email              = var.stella_pops_email
   city               = "Long Beach"
   country_code       = "US"
   department         = "IT"
@@ -60,7 +60,7 @@ resource "okta_user" "Bernie_Pops" {
   last_name          = "Pops"
   login              = "berniepops@lbpopsco.com"
   password           = "bernie1s7he8est"
-  email              = "buenospot+bernie@berkeley.edu"
+  email              = var.bernie_pops_email
   city               = "Long Beach"
   country_code       = "US"
   department         = "IT"
@@ -84,7 +84,7 @@ resource "okta_user" "Lily_Pops" {
   last_name          = "Pops"
   login              = "lilypops@lbpopsco.com"
   password           = "lily1s7he8est"
-  email              = "buenospot+lily@berkeley.edu"
+  email              = var.lily_pops_email
   city               = "Long Beach"
   country_code       = "US"
   department         = "IT"
@@ -108,7 +108,7 @@ resource "okta_user" "Audrey_Pops" {
   last_name          = "Pops"
   login              = "audreypops@lbpopsco.com"
   password           = "audrey1s7he8est"
-  email              = "buenospot+audrey@berkeley.edu"
+  email              = var.audrey_pops_email
   city               = "Long Beach"
   country_code       = "US"
   department         = "IT"

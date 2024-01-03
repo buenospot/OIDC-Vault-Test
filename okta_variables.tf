@@ -52,3 +52,19 @@ variable "okta_vault_app_callback_uri_ui" {
 variable "okta_vault_app_callback_uri_cli" {
   type = string
 }
+/**
+ * Need to provide email addresses for the users here.
+ */
+variable "bernie_pops_email" {
+  type = string
+  
+}
+variable "lily_pops_email" {
+  type = string
+}
+variable "stella_pops_email" {
+  type = string
+}
+variable "audrey_pops_email" {
+  type = string
+}
