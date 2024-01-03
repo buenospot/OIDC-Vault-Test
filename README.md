@@ -41,5 +41,4 @@ Here's how the TF is structured:
 - okta.tf has all the People & Groups
 - okta.tf will also have the OIDC configuration for Vault to use
 
-
-Will need HCP Vault
+I provided these users and groups as the examples, but certainly able to add/delete as many or as few as you want. The one variable that I believe to be important that must be filled when running this example is the email address. In the okta person example, the login is different than the email address. If you want to see notifications happen via email, then it's important to provide a working email address.
