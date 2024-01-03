@@ -201,15 +201,15 @@ resource "okta_auth_server_claim" "okta_vault_auth_server_claim" {
  */
 
 locals {
-  full_vault_callback_uri_ui = format("%s%s", var.vault_addr, var.vault_callback_uri_ui) 
+  full_vault_callback_uri_ui = format("%s%s", var.okta_vault_app_addr, var.okta_vault_app_callback_uri_ui) 
   full_org_name = format("https://%s.%s", var.okta_org_name, var.okta_base_url)
 }
 
 resource "okta_app_oauth" "okta_vault_app" {
-  label                      = var.vault_okta_app_name
+  label                      = var.okta_vault_app_name
   type                       = "web"
   grant_types                = ["authorization_code", "implicit"]
-  redirect_uris              = [local.full_vault_callback_uri_ui,var.vault_callback_uri_cli]
+  redirect_uris              = [local.full_vault_callback_uri_ui,var.okta_vault_app_callback_uri_cli]
   response_types             = ["code", "token","id_token"]
   consent_method = "REQUIRED"
   groups_claim {
@@ -239,13 +239,4 @@ resource "okta_app_oauth_api_scope" "okta_vault_app_oauth_api_scope" {
   issuer = local.full_org_name
   scopes = ["okta.groups.read", "okta.users.read.self"]
 }
-output "my_full_org_name" {
-  value = local.full_org_name
-}
-output "my_okta_app_client_id" {
-  value = okta_app_oauth.okta_vault_app.client_id
-}
-output "my_okta_app_client_secret" {
-  value = okta_app_oauth.okta_vault_app.client_secret
-  sensitive = true
-}
+
