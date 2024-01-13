@@ -213,6 +213,9 @@ locals {
   full_org_name = format("https://%s.%s", var.okta_org_name, var.okta_base_url)
 }
 
+/**
+ * Creating the vault app inside of okta
+ */
 resource "okta_app_oauth" "okta_vault_app" {
   label                      = var.okta_vault_app_name
   type                       = "web"
@@ -228,16 +231,19 @@ resource "okta_app_oauth" "okta_vault_app" {
   }
 }
 
+/**
+ * Assigning the groups created to this new app
+ */
 resource "okta_app_group_assignments" "okta_vault_app_group_assignments" {
   app_id   = okta_app_oauth.okta_vault_app.id
   group {
-    id = okta_group.okta-pops-admins_vault.id
+    id = okta_group.okta-pops-admins-vault.id
   }
   group {
-    id = okta_group.okta-pops-developers_vault.id
+    id = okta_group.okta-pops-developers-vault.id
   }
   group {
-    id = okta_group.okta-pops-qas_vault.id
+    id = okta_group.okta-pops-qas-vault.id
   }
 }
 
