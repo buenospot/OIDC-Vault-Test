@@ -135,25 +135,29 @@ resource "okta_user" "Audrey_Pops" {
 */
 
 
-resource "okta_group" "okta-pops-admins_vault" {
-  name        = "okta-pops-admins_vault"
+resource "okta_group" "okta-pops-admins-vault" {
+  name        = "okta-pops-admins-vault"
   description = "This is the group of the Pops Admins."
 }
 
 resource "okta_group_memberships" "okta_pops_admins_members" {
-  group_id = okta_group.okta-pops-admins_vault.id
+  group_id = okta_group.okta-pops-admins-vault.id
   users = [
     okta_user.Stella_Pops.id,
     okta_user.Bernie_Pops.id,
   ]
 }
 
-resource "okta_group" "okta-pops-developers_vault" {
-  name        = "okta-pops-developers_vault"
+/**
+ * Here are the devs
+ */
+
+resource "okta_group" "okta-pops-developers-vault" {
+  name        = "okta-pops-developers-vault"
   description = "This is the group of the Pops Developers."
 }
 resource "okta_group_memberships" "okta_pops_developers_members" {
-  group_id = okta_group.okta-pops-developers_vault.id
+  group_id = okta_group.okta-pops-developers-vault.id
   users = [
     okta_user.Stella_Pops.id,
     okta_user.Lily_Pops.id,
@@ -161,12 +165,16 @@ resource "okta_group_memberships" "okta_pops_developers_members" {
   ]
 }
 
-resource "okta_group" "okta-pops-qas_vault" {
-  name        = "okta-pops-qas_vault"
+/**
+ * QA Group
+ */
+
+resource "okta_group" "okta-pops-qas-vault" {
+  name        = "okta-pops-qas-vault"
   description = "This is the group of the Pops QA Engineers."
 }
 resource "okta_group_memberships" "okta_pops_qas_members" {
-  group_id = okta_group.okta-pops-qas_vault.id
+  group_id = okta_group.okta-pops-qas-vault.id
   users = [
     okta_user.Bernie_Pops.id
   ]
