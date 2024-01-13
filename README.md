@@ -23,16 +23,16 @@ The fictitious company that I have come up with is Long Beach Popsicles
 
 lbpopsco.com
 
-Group Name: okta-pops-admins_vault
+Group Name: okta-pops-admins-vault
 - Stella Pops
 - Bernie Pops
 
-Group Name: okta-pops-developers_vault
+Group Name: okta-pops-developers-vault
 - Lily Pops
 - Audrey Pops
 - Stella Pops
 
-Group Name: okta-pops-qas_vault
+Group Name: okta-pops-qas-vault
 - Bernie Pops
 
 Here's how the TF is structured:
